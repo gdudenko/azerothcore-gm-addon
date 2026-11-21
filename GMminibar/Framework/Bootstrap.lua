@@ -109,7 +109,7 @@ function A:Trim(value)
 end
 
 function A:Print(message, isError)
-    local prefix = isError and "|cffff5b45GM MINI BAR[WotLK-아제로스코어]:|r " or "|cffffd24aGM MINI BAR[WotLK-아제로스코어]:|r "
+    local prefix = isError and "|cffff5b45GM MINI BAR[WotLK-AzerothCore]:|r " or "|cffffd24aGM MINI BAR[WotLK-AzerothCore]:|r "
     if DEFAULT_CHAT_FRAME then
         DEFAULT_CHAT_FRAME:AddMessage(prefix .. tostring(message or ""))
     end

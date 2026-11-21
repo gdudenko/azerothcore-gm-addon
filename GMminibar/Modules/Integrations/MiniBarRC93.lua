@@ -89,14 +89,14 @@ function W:LayoutMiniBar()
   grip:SetHighlightTexture('Interface\\Buttons\\ButtonHilight-Square','ADD')
   grip:RegisterForDrag('LeftButton');grip:SetScript('OnDragStart',function()bar:StartMoving()end)
   grip:SetScript('OnDragStop',function()bar:StopMovingOrSizing();A.UI:SavePoint(bar,'toolbar')end)
-  N:Hint(grip,'미니바 이동','이 손잡이를 왼쪽 버튼으로 잡고 끌어 이동하세요.')
+  N:Hint(grip,'Перемещение мини-бара','Потяните этот захват левой кнопкой мыши, чтобы переместить панель.')
   local resize=CreateFrame('Frame',nil,bar);bar.sizeControl=resize;resize:SetSize(26,26)
   for i,delta in ipairs({.05,-.05})do
    local step=delta;local b=CreateFrame('Button',nil,resize);b:SetSize(26,13);b:SetPoint('TOPLEFT',resize,'TOPLEFT',0,-(i-1)*13)
    b:SetNormalTexture(i==1 and 'Interface\\Buttons\\UI-ScrollBar-ScrollUpButton-Up'or 'Interface\\Buttons\\UI-ScrollBar-ScrollDownButton-Up')
    b:SetHighlightTexture('Interface\\Buttons\\ButtonHilight-Square','ADD')
    b:SetScript('OnClick',function()local db=W:DB();db.miniBarScale=math.max(.65,math.min(1.6,(db.miniBarScale or 1)+step));W:LayoutMiniBar()end)
-   N:Hint(b,i==1 and '미니바 확대'or '미니바 축소','한 번 클릭하면 크기가 5% 바뀝니다.')
+   N:Hint(b,i==1 and 'Увеличить мини-бар'or 'Уменьшить мини-бар','Один клик меняет размер на 5%.')
    if i==1 then bar.sizeUp=b else bar.sizeDown=b end
   end
  end

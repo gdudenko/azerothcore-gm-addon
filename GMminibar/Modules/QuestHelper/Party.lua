@@ -22,7 +22,7 @@ function B:CompletePartyQuest()
  if A.interface==30300 and self.partyApply and self.partyApply:GetChecked()then
   local members=self:PartyMembers(quest,true)
   for _,member in ipairs(members)do if present(member)then A:SendCommand('.quest complete '..quest.id..' '..member.name)end end
-  A:Print('본인과 해당 퀘스트를 가진 파티원 '..#members..'명에게 조건 완료를 요청했습니다.')
+  A:Print('Запрос выполнить условия отправлен вам и участникам группы с этим заданием: '..#members..' чел.')
  end
  return true
 end
@@ -30,12 +30,12 @@ function A:SetupPartyQuestCompanion()
  if B.partyApply then return end
  local check=CreateFrame('CheckButton',nil,B.frame,'UICheckButtonTemplate');B.partyApply=check
  check:SetSize(24,24);check:SetPoint('TOPLEFT',B.frame,'TOPLEFT',176,-35);check:SetChecked(false)
- local label=N:Text(B.frame,'파티원 적용',105,true);label:SetPoint('LEFT',check,'RIGHT',1,0)
- N:Hint(check,'파티원 적용','이동: 본인 도착 확인 후 같은 위치로 파티원 소환\n조건 완료: 해당 퀘스트를 가진 접속 중인 파티원만 적용')
+ local label=N:Text(B.frame,'Для группы',105,true);label:SetPoint('LEFT',check,'RIGHT',1,0)
+ N:Hint(check,'Для группы','Перемещение: после подтверждения вашего прибытия вызывает группу на то же место\nУсловия: только для участников группы онлайн с этим заданием')
  check:SetScript('OnClick',function()B.partyMove=nil;P:Refresh()end)
  P:Attach(B.buttons.complete,function()
   if A.interface~=30300 and B.partyApply:GetChecked()then
-   A:Print('본인과 확인된 파티원에게 조건 완료를 요청했습니다.');B.dirty=true
+   A:Print('Запрос выполнить условия отправлен вам и подтверждённым участникам группы.');B.dirty=true
   else B:CompletePartyQuest()end
  end,{leftOnly=true,prepare=function(overlay)
   local quest=D:SelectedQuest()
@@ -70,13 +70,13 @@ function B:BeginPartyMove(target)
  if not self.partyApply or not self.partyApply:GetChecked()then return end
  local members=self:PartyMembers(nil,false);if #members==0 then return end
  if not target or not tonumber(target.m)or not tonumber(target.x)or not tonumber(target.y)then
-  A:Print('본인 이동만 요청합니다. 파티 이동을 확인할 목적지 좌표가 없습니다.',true);return
+  A:Print('Запрошено перемещение только для вас: нет координат для перемещения группы.',true);return
  end
  self.partyMove={target={map=tonumber(target.m),x=target.x,y=target.y},members=members,started=GetTime(),origin=A:ReadPlayerWorldPosition()}
 end
 function B:CheckPartyMove()
  local job=self.partyMove;if not job then return end
- if GetTime()-job.started>12 then self.partyMove=nil;A:Print('본인 도착이 확인되지 않아 파티원 이동을 중단했습니다.',true);return end
+ if GetTime()-job.started>12 then self.partyMove=nil;A:Print('Ваше прибытие не подтверждено — перемещение группы отменено.',true);return end
  if GetTime()-job.started<.5 or A.loadingWorld then return end
  local pos=A:ReadPlayerWorldPosition();if not pos then return end
  local target=job.target
@@ -88,7 +88,7 @@ function B:CheckPartyMove()
  for _,member in ipairs(job.members)do if present(member)then
   if A:SendCommand('.summon '..member.name)then count=count+1 end
  end end
- A:Print('본인 도착 확인 · 파티원 '..count..'명에게 같은 위치로 이동을 요청했습니다.')
+ A:Print('Вы на месте · запрос на перемещение отправлен участникам группы: '..count..' чел.')
 end
 local watcher=CreateFrame('Frame');local elapsed=0
 watcher:SetScript('OnUpdate',function(_,dt)elapsed=elapsed+dt;if elapsed<.3 then return end;elapsed=0;B:CheckPartyMove()end)

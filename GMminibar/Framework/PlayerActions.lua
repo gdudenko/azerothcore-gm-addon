@@ -32,7 +32,7 @@ function P:Attach(source,callback,options)
  options=options or {}
  if combat()then
   self.deferred=self.deferred or {};self.deferred[#self.deferred+1]={source,callback,options}
-  source:SetScript('OnClick',function()A:Print('전투 종료 후 사용할 수 있습니다.',true)end)
+  source:SetScript('OnClick',function()A:Print('Можно использовать после окончания боя.',true)end)
   return nil
  end
  local b=CreateFrame('Button',nil,UIParent,'SecureActionButtonTemplate,SecureHandlerStateTemplate')
@@ -53,7 +53,7 @@ function P:Attach(source,callback,options)
  b:SetScript('OnEnter',function()local f=source:GetScript('OnEnter');if f then f(source)end end)
  b:SetScript('OnLeave',function()local f=source:GetScript('OnLeave');if f then f(source)end end)
  source:SetScript('OnClick',function(s,mouse)
-  if combat()then A:Print('이 기능은 전투 종료 후 사용할 수 있습니다.',true);return end
+  if combat()then A:Print('Эта функция доступна после окончания боя.',true);return end
   -- A direct Lua invocation is never a hardware click and cannot select a unit.
   if UnitIsUnit and UnitIsUnit('target','player')then callback(s,mouse or 'LeftButton')end
  end)
@@ -112,16 +112,16 @@ function P:Known(id,exact)
 end
 function P:Track(key,check,label)
  local request={check=check,label=label,started=GetTime()};self.pending[key]=request
- label:SetText('서버 응답 확인 중…')
+ label:SetText('Ожидание ответа сервера…')
  A:RunAfter(6,function()
   local p=P.pending[key];if p~=request then return end
-  if p.check()then p.label:SetText('|cff55bbff반영 완료|r')
-  else p.label:SetText('변경을 확인하지 못했습니다. 서버 메시지를 확인하세요.')end
+  if p.check()then p.label:SetText('|cff55bbffприменено|r')
+  else p.label:SetText('Изменение не подтверждено. Проверьте сообщения сервера.')end
   P.pending[key]=nil
  end)
 end
 function P:NotifyKnownChanged()
- for key,p in pairs(self.pending)do if p.check()then p.label:SetText('|cff55bbff반영 완료|r');self.pending[key]=nil end end
+ for key,p in pairs(self.pending)do if p.check()then p.label:SetText('|cff55bbffприменено|r');self.pending[key]=nil end end
  if A.RefreshTrainingViews then A:RefreshTrainingViews()end
 end
 function P:ForgetKnown(id)
@@ -180,5 +180,5 @@ updates:SetScript('OnEvent',function(_,event,message)
  end
  if event=='PLAYER_LOGIN'then P.serverKnown={};P.knownQueries={};P.knownRequests={}end
  P:RefreshKnown()
- for key,p in pairs(P.pending)do if p.check()then p.label:SetText('|cff55bbff반영 완료|r');P.pending[key]=nil end end
+ for key,p in pairs(P.pending)do if p.check()then p.label:SetText('|cff55bbffприменено|r');P.pending[key]=nil end end
 end)

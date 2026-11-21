@@ -16,7 +16,7 @@ A.CommandWorkbook[".account set sec email"]={group="계정 관리",name="입력�
 A.CommandWorkbook[".achievement"]={group="업적",name="가능한 하위 명령 목록을 보려면 .achievement를 입력하거나 .help achievement를 입력하세요",feature="가능한 하위 명령 목록을 보려면 .achievement를 입력하고, 하위 명령에 대한 정보를 보려면 .help achievement $subcommand를 입력하세요.",method=".achievement $subcommand"}
 A.CommandWorkbook[".achievement add"]={group="업적",name="대상 플레이어에게 업적을 추가합니다. $achievement: 업적 ID 또는",feature="대상 플레이어에게 업적을 추가합니다. $achievement: 업적 ID 또는 업적 링크일 수 있습니다.",method=".achievement add $achievement"}
 A.CommandWorkbook[".additem"]={group="아이템 지급",name="id #itemid(또는 정확한(!) 이름 $itemname)의 지정된 개수의 항목을 대괄호 안에 추가합니다",feature="지정된 개수의 ID #itemid(또는 괄호 안의 정확한 이름(!) 이름 $itemname, 인벤토리나 레시피의 아이템을 Shift-클릭하여 생성된 링크)를 귀하 또는 선택한 캐릭터 인벤토리에 추가합니다. #itemcount를 생략하면 하나의 항목만 추가됩니다. .",method=".additem #itemid/[#itemname]/#shift-click-item-link #itemcount"}
-A.CommandWorkbook[".additem set"]={group="아이템 세트 지급",name="ID가 #itemsetid인 아이템 세트의 아이템을 귀하 또는 선택한 캐릭터 인벤토리에 추가하세요",feature="ID가 #itemsetid인 아이템 세트의 아이템을 귀하 또는 선택한 캐릭터 인벤토리에 추가하세요. 항목 집합의 각 항목을 하나의 예시로 추가합니다.",method=".additem set #itemsetid"}
+A.CommandWorkbook[".additem set"]={group="아이템 세트 지급",name="Выдать набор предметов по ID набора",feature="Добавляет предметы набора #itemsetid в инвентарь вам или выбранному персонажу — по одному экземпляру каждого предмета.",method=".additem set #itemsetid"}
 A.CommandWorkbook[".announce"]={group="전체 공지",name="채팅 로그를 통해 온라인상의 모든 플레이어에게 글로벌 메시지 보내기",feature="채팅 로그를 통해 온라인상의 모든 플레이어에게 글로벌 메시지를 보냅니다.",method=".announce $MessageToBroadcast"}
 A.CommandWorkbook[".appear"]={group="대상에게 이동(관전)",name="해당 캐릭터로 텔레포트",feature="주어진 캐릭터로 순간이동합니다. 캐릭터 이름을 지정하거나 캐릭터의 초상화를 클릭하세요. 그룹에 있을 때. 캐릭터는 오프라인일 수 있습니다.",method=".appear [$charactername]"}
 A.CommandWorkbook[".arena disband"]={group="투기장",name="게임 내 아레나 팀 해체 명령",feature="게임 내 아레나 팀을 해체하는 명령입니다.",method=".arena disband #TeamID"}
@@ -30,7 +30,7 @@ A.CommandWorkbook[".baninfo"]={group="차단 정보 조회",name="가능한 하�
 A.CommandWorkbook[".baninfo account"]={group="차단 정보 조회",name="특정 금지에 대한 전체 정보 보기",feature="특정 금지에 대한 전체 정보를 시청하세요.",method=".baninfo account $accountid"}
 A.CommandWorkbook[".baninfo character"]={group="차단 정보 조회",name="특정 금지에 대한 전체 정보 보기",feature="특정 금지에 대한 전체 정보를 시청하세요.",method=".baninfo character $charactername"}
 A.CommandWorkbook[".baninfo ip"]={group="차단 정보 조회",name="특정 금지에 대한 전체 정보 보기",feature="특정 금지에 대한 전체 정보를 시청하세요.",method=".baninfo ip $ip"}
-A.CommandWorkbook[".character check bank"]={group="은행",name="은행 재고를 보여주세요",feature="은행 재고를 보여주세요.",method=".character check bank"}
+A.CommandWorkbook[".character check bank"]={group="은행",name="Показать содержимое банка",feature="Показывает содержимое банка персонажа.",method=".character check bank"}
 A.CommandWorkbook[".banlist"]={group="차단 목록 조회",name="가능한 하위 명령 목록을 보려면 .banlist를 입력하고, 보려면 .help banlist $subcommand를 입력하세요",feature="가능한 하위 명령 목록을 보려면 .banlist를 입력하고, 하위 명령에 대한 정보를 보려면 .help banlist $subcommand를 입력하세요.",method=".banlist $subcommand"}
 A.CommandWorkbook[".banlist account"]={group="차단 목록 조회",name="금지 목록에서 계정 이름 패턴을 검색하거나 계정 금지 전체 목록을 표시합니다",feature="금지 목록에서 계정 이름 패턴을 검색하거나 전체 계정 금지 목록을 표시합니다.",method=".banlist account [$Name]"}
 A.CommandWorkbook[".banlist character"]={group="차단 목록 조회",name="금지 목록에서 캐릭터 이름 패턴을 검색합니다",feature="금지 목록에서 캐릭터 이름 패턴을 검색합니다. 패턴이 필요합니다.",method=".banlist character $Name"}
@@ -95,7 +95,7 @@ A.CommandWorkbook[".debug transport"]={group="디버그",name="가장 가까운 
 A.CommandWorkbook[".deleteditem"]={group="삭제된 아이템 관리",name="가능한 하위 명령 목록을 보려면 .help deleteitem을 입력하거나 .help deleteitem을 입력하세요",feature="가능한 하위 명령 목록을 보려면 .help deleteitem을 입력하고, 하위 명령에 대한 정보를 보려면 .help deleteitem $subcommand를 입력하세요.",method=".deleteditem $subcommand"}
 A.CommandWorkbook[".deleteditem list"]={group="삭제된 아이템 관리",name="입장한 플레이어의 삭제된 항목을 표시합니다",feature="입장한 플레이어의 삭제된 항목을 표시합니다.",method=".deleteditem list $name."}
 A.CommandWorkbook[".deleteditem restore"]={group="삭제된 아이템 관리",name="이 명령은 삭제된 항목을 복원할 수 있으며 두 가지 유형이 있습니다",feature="이 명령은 삭제된 항목을 복원할 수 있으며 두 가지 유형, 즉 ID 복원(삭제된 항목의 ID 기준) 또는 플레이어의 모든 항목을 복원할 수 있습니다. 예: .deleteditem 모두 복원.",method=".deleteditem restore $name $type."}
-A.CommandWorkbook[".morph reset"]={group="변신 해제",name="선택한 플레이어의 변형",feature="선택한 플레이어를 변형합니다.",method=".morph reset"}
+A.CommandWorkbook[".morph reset"]={group="변신 해제",name="Сбросить облик",feature="Сбрасывает облик выбранного игрока.",method=".morph reset"}
 A.CommandWorkbook[".deserter bg add"]={group="탈영 디버프 관리",name="$time 지속 시간으로 대상에게 bg 탈영병 디버프를 추가합니다",feature="$time 지속 시간으로 대상에게 bg 탈영병 디버프를 추가합니다.",method=".deserter bg add $time"}
 A.CommandWorkbook[".deserter bg remove"]={group="탈영 디버프 관리",name="대상에게서 BG 탈영병 디버프를 제거합니다",feature="대상에게서 BG 탈영병 디버프를 제거합니다.",method=".deserter bg remove"}
 A.CommandWorkbook[".deserter instance add"]={group="탈영 디버프 관리",name="$time 지속 시간으로 대상에게 인스턴스 탈영병 디버프를 추가합니다",feature="$time 지속 시간으로 대상에게 인스턴스 탈영병 디버프를 추가합니다.",method=".deserter instance add $time"}
@@ -138,7 +138,7 @@ A.CommandWorkbook[".go"]={group="지정 위치로 이동",name="가능한 하위
 A.CommandWorkbook[".go creature"]={group="지정 위치로 이동",name="캐릭터를 guid #creature_guid를 사용하여 생물체로 순간이동시킵니다. .gocreature #생물_이름",feature="캐릭터를 guid #creature_guid를 사용하여 생물체로 순간이동시킵니다. .gocreature #creature_name 캐릭터를 이 이름을 가진 생물로 순간이동시킵니다. .gocreature id #creature_id 이 항목을 사용하여 템플릿에서 생성된 생물로 캐릭터를 순간이동합니다. *만약 둘 이상의 생물이 발견되면* 데이터베이스 내에서 발견된 첫 번째 생물로 순간이동됩니다.",method=".go creature #creature_guid"}
 A.CommandWorkbook[".go graveyard"]={group="지정 위치로 이동",name="지정된 graveyardId를 사용하여 묘지로 순간이동합니다",feature="지정된 graveyardId를 사용하여 묘지로 순간이동합니다.",method=".go graveyard #graveyardId"}
 A.CommandWorkbook[".go grid"]={group="지정 위치로 이동",name="지도 #mapId(또는 현재 지도인 경우)에서 제공된 인덱스를 사용하여 gm을 그리드 중앙으로 순간 이동합니다",feature="지도 #mapId(또는 제공되지 않은 경우 현재 지도)에서 제공된 인덱스를 사용하여 gm을 그리드 중앙으로 순간 이동합니다.",method=".go grid #gridX #gridY [#mapId]"}
-A.CommandWorkbook[".go gameobject"]={group="지정 위치로 이동",name="guid #object_guid를 사용하여 캐릭터를 게임 개체로 순간 이동합니다",feature="guid #object_guid를 사용하여 캐릭터를 게임 개체로 순간 이동합니다.",method=".go gameobject #object_guid"}
+A.CommandWorkbook[".go gameobject"]={group="지정 위치로 이동",name="Перемещение к игровому объекту по GUID",feature="Перемещает персонажа к игровому объекту с guid #object_guid.",method=".go gameobject #object_guid"}
 A.CommandWorkbook[".go taxinode"]={group="지정 위치로 이동",name="플레이어를 택시노드 좌표로 순간이동시킵니다",feature="플레이어를 택시노드 좌표로 순간이동시킵니다. .lookup Taxnode $namepart를 사용하여 영역을 조회할 수 있습니다.",method=".go taxinode #taxinode"}
 A.CommandWorkbook[".go ticket"]={group="지정 위치로 이동",name="$ticketid가 생성된 위치로 사용자를 순간 이동합니다",feature="$ticketid가 생성된 위치로 사용자를 순간 이동합니다.",method=".go ticket #ticketid"}
 A.CommandWorkbook[".go trigger"]={group="지정 위치로 이동",name="ID가 #trigger_id인 지역 트리거로 캐릭터를 순간이동시킵니다",feature="ID가 #trigger_id인 지역 트리거로 캐릭터를 순간이동합니다. 선택한 영역 트리거가 텔레포트 트리거인 경우 캐릭터가 트리거 대상으로 순간이동됩니다.",method=".go trigger #trigger_id"}
@@ -188,7 +188,7 @@ A.CommandWorkbook[".instance stats"]={group="인스턴스(던전) 관리",name="
 A.CommandWorkbook[".instance unbind"]={group="인스턴스(던전) 관리",name="플레이어의 바인딩 전체/일부 지우기",feature="플레이어의 바인딩 전체/일부 지우기",method=".instance unbind <mapid|all> [difficulty]"}
 A.CommandWorkbook[".itemdelete"]={group="아이템 삭제",name="시도하지 말고 이것을 사용하면 망할 것입니다. 단지 GM이라면 잊어버리십시오",feature="시도하지 말고 이것을 사용하면 망할 것입니다. 만약 당신이 단지 GM이라면 이것을 잊어버리십시오.",method=".itemdelete [revert] #guid"}
 A.CommandWorkbook[".itemlog"]={group="아이템 로그",name="계정에 대한 항목 로그 활성화/비활성화",feature="계정에 대한 항목 로그 활성화/비활성화",method=".itemlog $account on/off"}
-A.CommandWorkbook[".item move"]={group="아이템 이동",name="인벤토리의 #sourceslotid 슬롯에서 #destinationslotid로 항목을 이동하세요. 아직",feature="인벤토리의 #sourceslotid 슬롯에서 #destinationslotid로 항목을 이동합니다. 아직 구현되지 않았습니다.",method=".item move #sourceslotid #destinationslotid"}
+A.CommandWorkbook[".item move"]={group="아이템 이동",name="Переместить предмет между ячейками",feature="Перемещает предмет из ячейки #sourceslotid в #destinationslotid. Пока не реализовано.",method=".item move #sourceslotid #destinationslotid"}
 A.CommandWorkbook[".kick"]={group="강제 퇴장",name="이유가 있든 없든 주어진 캐릭터 이름을 세계에서 쫓아냅니다",feature="이유가 있든 없든 주어진 캐릭터 이름을 세계에서 쫓아냅니다. 캐릭터 이름이 제공되지 않으면 선택한 플레이어(본인 제외)가 추방됩니다. 이유가 제공되지 않은 경우 기본값은 \"이유 없음\"입니다.",method=".kick [$charactername] [$reason]"}
 A.CommandWorkbook[".learn"]={group="스킬/재능 습득",name="선택된 캐릭터는 id #spell의 주문을 배웁니다",feature="선택된 캐릭터는 id #spell의 주문을 배웁니다. 'all'이 제공되면 모든 순위가 학습됩니다.",method=".learn #spell [all]"}
 A.CommandWorkbook[".learn all crafts"]={group="스킬/재능 습득",name="모든 직업과 조리법을 배우세요",feature="모든 직업과 요리법을 배우십시오.",method=".learn crafts"}
@@ -225,7 +225,7 @@ A.CommandWorkbook[".lookup creature"]={group="데이터 검색",name="$namepart�
 A.CommandWorkbook[".lookup event"]={group="데이터 검색",name="제공된 $name을 사용하여 이벤트 ID를 찾으려고 시도합니다",feature="제공된 $name을 사용하여 이벤트 ID를 찾으려고 시도합니다.",method=".lookup event $name"}
 A.CommandWorkbook[".lookup faction"]={group="데이터 검색",name="제공된 $name을 사용하여 세력의 ID를 찾으려고 시도합니다",feature="제공된 $name을 사용하여 세력의 ID를 찾으려고 시도합니다.",method=".lookup faction $name"}
 A.CommandWorkbook[".lookup item"]={group="데이터 검색",name="$itemname으로 항목을 조회하고 해당 항목 ID와 일치하는 모든 항목을 반환합니다",feature="$itemname으로 항목을 조회하고 해당 항목 ID와 일치하는 모든 항목을 반환합니다.",method=".lookup item $itemname"}
-A.CommandWorkbook[".lookup item set"]={group="데이터 검색",name="$itemname으로 설정된 항목을 조회하고 해당 항목 세트 ID와 일치하는 모든 항목을 반환합니다",feature="$itemname으로 설정된 항목을 조회하고 해당 항목 세트 ID와 일치하는 모든 항목을 반환합니다.",method=".lookup item set $itemname"}
+A.CommandWorkbook[".lookup item set"]={group="데이터 검색",name="Поиск набора предметов",feature="Ищет набор по имени $itemname и возвращает все предметы с этим ID набора.",method=".lookup item set $itemname"}
 A.CommandWorkbook[".lookup map"]={group="데이터 검색",name="$namepart로 지도를 조회하고 지도 ID와 일치하는 모든 항목을 반환합니다",feature="$namepart로 지도를 조회하고 지도 ID와 일치하는 모든 항목을 반환합니다.",method=".lookup map $namepart"}
 A.CommandWorkbook[".lookup object"]={group="데이터 검색",name="$objname으로 게임오브젝트를 찾고 해당 게임오브젝트 ID와 일치하는 모든 항목을 반환합니다",feature="$objname으로 게임오브젝트를 찾고 해당 게임오브젝트 ID와 일치하는 모든 항목을 반환합니다.",method=".lookup object $objname"}
 A.CommandWorkbook[".lookup player account"]={group="데이터 검색",name="선택적 매개변수 $limit를 사용하여 계정 사용자 이름이 $account인 플레이어를 검색합니다",feature="선택적 매개변수 $limit 결과를 사용하여 계정 사용자 이름이 $account인 플레이어를 검색합니다.",method=".lookup player account $account ($limit)"}
@@ -270,7 +270,7 @@ A.CommandWorkbook[".modify speed swim"]={group="캐릭터 속성 수정",name="�
 A.CommandWorkbook[".modify speed walk"]={group="캐릭터 속성 수정",name="달리는 동안 선택한 플레이어의 속도를 \"일반 걷기 속도\"*속도로 수정합니다",feature="달리는 동안 선택한 플레이어의 속도를 \"일반 걷기 속도\"*속도로 수정합니다. 플레이어를 선택하지 않은 경우 속도를 수정하세요.   #rate 범위는 0.1에서 50까지입니다.",method=".modify speed bwalk #rate"}
 A.CommandWorkbook[".modify spell"]={group="캐릭터 속성 수정",name="TODO",feature="",method="TODO"}
 A.CommandWorkbook[".modify standstate"]={group="캐릭터 속성 수정",name="서 있는 동안 캐릭터의 감정 표현을 #emoteid로 변경하세요",feature="서 있는 동안 캐릭터의 감정 표현을 #emoteid로 변경하세요.",method=".modify standstate #emoteid"}
-A.CommandWorkbook[".morph target"]={group="외형 변신",name="현재 모델 ID를 #displayid로 변경하세요",feature="현재 모델 ID를 #displayid로 변경하세요.",method=".morph target #displayid"}
+A.CommandWorkbook[".morph target"]={group="외형 변신",name="Изменить модель на #displayid",feature="Меняет текущий ID модели на #displayid.",method=".morph target #displayid"}
 A.CommandWorkbook[".movegens"]={group="이동 생성기(AI 이동) 정보",name="선택한 생물이나 플레이어의 이동 생성기 스택 표시",feature="선택한 생물이나 플레이어의 이동 생성기 스택을 표시합니다.",method=".movegens"}
 A.CommandWorkbook[".mute"]={group="채팅 금지(뮤트)",name="$playerName 캐릭터 계정의 모든 캐릭터에 대한 채팅 메시지를 비활성화합니다(또는",feature="$timeInMinutes분에 $playerName 캐릭터(또는 현재 선택된) 계정의 모든 캐릭터에 대한 채팅 메시지를 비활성화합니다. 플레이어는 오프라인일 수 있습니다.",method=".mute [$playerName] $timeInMinutes [$reason]"}
 A.CommandWorkbook[".mutelist"]={group="채팅 금지 목록",name="뮤트리스트",feature="",method=".mutelist $subcommand"}
@@ -424,7 +424,7 @@ A.CommandWorkbook[".reload vehicle_template_accessory"]={group="DB 테이블 다
 A.CommandWorkbook[".reload waypoint_data"]={group="DB 테이블 다시 불러오기",name="waypoint_data 테이블을 다시 로드합니다",feature="구문: .reload waypoint_data는 waypoint_data 테이블을 다시 로드합니다.",method=".reload waypoint_data will reload waypoint_data table."}
 A.CommandWorkbook[".reload waypoint_scripts"]={group="DB 테이블 다시 불러오기",name="waypoint_scripts 테이블 다시 로드",feature="waypoint_scripts 테이블을 다시 로드합니다.",method=".reload waypoint_scripts"}
 A.CommandWorkbook[".removeitem"]={group="아이템 회수",name="추가 항목처럼 작동",feature="",method=".removeitem work like additem"}
-A.CommandWorkbook[".gear repair"]={group="장비 수리",name="선택한 플레이어의 모든 아이템을 수리하세요",feature="선택한 플레이어의 아이템을 모두 수리하세요.",method=".gear repair"}
+A.CommandWorkbook[".gear repair"]={group="장비 수리",name="Починить снаряжение",feature="Ремонтирует все предметы выбранного игрока.",method=".gear repair"}
 A.CommandWorkbook[".replace skill"]={group="치환",name="캐릭터 $name에 대한 스킬 $newSkill의 스킬 &oldSkill을 교체하고 새 스킬 값을 다음으로 설정합니다",feature="$name 캐릭터에 대한 $newSkill 스킬의 &oldSkill 스킬을 교체하고 새 스킬 값을 $skillValue로 설정합니다.",method=".replace skill $name &oldSkill $newSkill $skillValue"}
 A.CommandWorkbook[".reset"]={group="초기화",name="가능한 하위 명령 목록을 보려면 .reset을 입력하고, 보려면 .help Reset $subcommand를 입력하세요",feature="가능한 하위 명령 목록을 보려면 .reset을 입력하고, 하위 명령에 대한 정보를 보려면 .help Reset $subcommand를 입력하세요.",method=".reset $subcommand"}
 A.CommandWorkbook[".reset achievements"]={group="초기화",name="선택 또는 이름이 지정된(온라인 또는 오프라인) 캐릭터의 업적 데이터 재설정",feature="선택되거나 이름이 지정된(온라인 또는 오프라인) 캐릭터의 업적 데이터를 재설정합니다. 완료된 퀘스트 등 지속성 진행 데이터에 대한 성과는 재설정 시 다시 채워집니다. 처치/시전 등의 이벤트 성과는 사라집니다.",method=".reset achievements [$playername]"}

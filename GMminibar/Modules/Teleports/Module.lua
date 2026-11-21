@@ -3,6 +3,13 @@ local A = AzerothAdminAC335
 A.UI = type(A.UI) == "table" and A.UI or {}
 local UI = A.UI
 local TELEPORTS_PER_PAGE = 24
+-- Russian display helper: translates Korean data fields and normalises leftovers.
+local function loc(text)
+    local value = A:TranslateLabel(tostring(text or ""))
+    value = value:gsub("(%d+)인", "%1 чел.")
+    value = value:gsub("^Рекомендуется%s*", "")
+    return value
+end
 -- Rows start at 180, have a 27px pitch and end 2px before the next pitch.
 -- Reserve 6px before the dispatch line at height-57, followed by the pager.
 local function pageSize(frame) return math.max(1,math.min(TELEPORTS_PER_PAGE,math.floor((frame:GetHeight()-241)/27))) end
@@ -49,20 +56,20 @@ local function teleportDifficultyAPI(row)
 end
 
 local function difficultyChangeBlocked()
- if IsInInstance and IsInInstance() then return '인스턴스 밖에서 난이도를 변경한 뒤 이동하세요.' end
- if InCombatLockdown and InCombatLockdown() then return '전투가 끝난 뒤 난이도를 변경할 수 있습니다.' end
+ if IsInInstance and IsInInstance() then return 'Смените сложность вне подземелья, затем перемещайтесь.' end
+ if InCombatLockdown and InCombatLockdown() then return 'Сложность можно менять после окончания боя.' end
  local grouped=(GetNumGroupMembers and GetNumGroupMembers()>0)
   or (GetNumRaidMembers and GetNumRaidMembers()>0)
   or (GetNumPartyMembers and GetNumPartyMembers()>0)
  if grouped then
   local leader=(UnitIsGroupLeader and UnitIsGroupLeader('player')) or (IsPartyLeader and IsPartyLeader()) or (IsRaidLeader and IsRaidLeader())
-  if not leader then return '파티장 또는 공격대장만 난이도를 변경할 수 있습니다.' end
+  if not leader then return 'Менять сложность может только лидер группы или рейда.' end
  end
 end
 
 local function dispatchTeleport(row,command)
  local ok=A:SendCommand(command)
- teleportStatus(ok and ((row.name_ko or row.name)..' · 이동 요청 · 서버 응답을 확인하세요.') or '이동 요청을 보내지 못했습니다.',not ok)
+ teleportStatus(ok and (loc(row.name_ko or row.name)..' · запрос перемещения · проверьте ответ сервера.') or 'Не удалось отправить запрос перемещения.',not ok)
  return ok
 end
 
@@ -71,25 +78,25 @@ function A:RunTeleportRow(row)
  if self.teleportDifficultyWatch then self.teleportDifficultyWatch:SetScript('OnUpdate',nil);self.teleportDifficultyWatch:Hide() end
  local command=self:TeleportCommandFor(row)
  if not command or not self:CanRunCommand('go_xyz') then
-  teleportStatus('이 목적지의 이동 정보 또는 GM 권한을 확인할 수 없습니다.',true);return false
+  teleportStatus('Нет данных перемещения для этой цели или недостаточно прав GM.',true);return false
  end
  local target=self.TeleportDestinationByID[tonumber(row.id)]
  local mode=target.clientDifficulty
  if not mode then return dispatchTeleport(target,command) end
  local getter,setter=teleportDifficultyAPI(target)
  if not getter or not setter then
-  teleportStatus('현재 클라이언트에서 이 난이도 변경을 지원하지 않습니다.',true);return false
+  teleportStatus('Этот клиент не поддерживает смену такой сложности.',true);return false
  end
  local readOK,current=pcall(getter)
- if not readOK then teleportStatus('현재 난이도를 확인하지 못했습니다.',true);return false end
+ if not readOK then teleportStatus('Не удалось определить текущую сложность.',true);return false end
  if current==mode then return dispatchTeleport(target,command) end
  local blocked=difficultyChangeBlocked()
  if blocked then teleportStatus(blocked,true);return false end
  local ok=pcall(setter,mode)
- if not ok then teleportStatus('난이도를 변경하지 못해 이동을 취소했습니다.',true);return false end
+ if not ok then teleportStatus('Не удалось сменить сложность — перемещение отменено.',true);return false end
  local request={row=target,command=command,mode=mode,getter=getter,elapsed=0,tick=0}
  self.pendingTeleportDifficulty=request
- teleportStatus((target.name_ko or target.name)..' · 난이도 변경 확인 중')
+ teleportStatus(loc(target.name_ko or target.name)..' · проверка смены сложности')
  local watcher=self.teleportDifficultyWatch or CreateFrame('Frame')
  self.teleportDifficultyWatch=watcher;watcher:Show()
  watcher:SetScript('OnUpdate',function(frame,delta)
@@ -103,7 +110,7 @@ function A:RunTeleportRow(row)
    dispatchTeleport(job.row,job.command)
   elseif job.elapsed>=6 then
    A.pendingTeleportDifficulty=nil;frame:SetScript('OnUpdate',nil);frame:Hide()
-   teleportStatus('난이도 변경이 확인되지 않아 이동을 취소했습니다. 레벨·파티 상태와 서버 메시지를 확인하세요.',true)
+   teleportStatus('Смена сложности не подтверждена — перемещение отменено. Проверьте уровень, группу и сообщения сервера.',true)
   end
  end)
  return true
@@ -335,10 +342,10 @@ end
 
 local function teleportLabel(row, favorite)
     local star = favorite and "|cffffd24a★|r " or ""
-    local region = row.region_ko and row.region_ko ~= "" and row.region_ko or A:L("REGION_OTHER")
-    local zone = row.zone_ko and row.zone_ko ~= "" and row.zone_ko or region
-    local name = row.name_ko and row.name_ko ~= "" and row.name_ko or tostring(row.name or A:L("UNKNOWN"))
-    local level = row.levelText and row.levelText ~= "" and row.levelText or A:L("TELEPORT_LEVEL")
+    local region = row.region_ko and row.region_ko ~= "" and loc(row.region_ko) or A:L("REGION_OTHER")
+    local zone = row.zone_ko and row.zone_ko ~= "" and loc(row.zone_ko) or region
+    local name = row.name_ko and row.name_ko ~= "" and loc(row.name_ko) or tostring(row.name or A:L("UNKNOWN"))
+    local level = row.levelText and row.levelText ~= "" and loc(row.levelText) or A:L("TELEPORT_LEVEL")
     local faction = teleportFaction(row)
     local color = faction == "ALLIANCE" and "|cff69a8ff" or (faction == "HORDE" and "|cffff6666" or "|cffb8c6cc")
     return star .. "|cffffd24a" .. tostring(region) .. "|r / " .. tostring(zone)
@@ -350,8 +357,8 @@ local function teleportTooltipLines(row)
     return {
         A:L("TELEPORT_TABLE_PATH", A:TranslateLabel(tostring(row.region_ko or A:L("REGION_OTHER"))), A:TranslateLabel(tostring(row.zone_ko or A:L("REGION_OTHER"))), A:TranslateLabel(tostring(row.levelText or ""))),
         A:L("TELEPORT_FACTION_LABEL") .. ": " .. factionLabel(teleportFaction(row)),
-        row.clientDifficulty and (row.difficultyLabel..' · 난이도 적용 후 입구로 이동') or (row.targetKind=='creature' and '해당 NPC에게 이동' or '외부 입구로 이동'),
-        row.landing and (row.targetKind=='gameobject' and '만남의 돌 옆 바닥으로 이동' or '포탈 앞 바닥으로 이동') or (row.targetKind=='gameobject' and '만남의 돌로 이동' or ''),
+        row.clientDifficulty and (loc(row.difficultyLabel)..' · вход после смены сложности') or (row.targetKind=='creature' and 'Перемещение к этому NPC' or 'Перемещение ко внешнему входу'),
+        row.landing and (row.targetKind=='gameobject' and 'На пол рядом с камнем встреч' or 'На пол перед порталом') or (row.targetKind=='gameobject' and 'К камню встреч' or ''),
         A:L("TELEPORT_ROW_HINT"),
     }
 end
@@ -446,14 +453,14 @@ function A:RefreshTeleportWindow()
         button.aaeTeleport = row
         if row then
             local favorite = self:IsTeleportFavorite(row)
-            local region = row.region_ko and row.region_ko ~= "" and row.region_ko or self:L("REGION_OTHER")
-            local zone = row.zone_ko and row.zone_ko ~= "" and row.zone_ko or region
+            local region = row.region_ko and row.region_ko ~= "" and loc(row.region_ko) or self:L("REGION_OTHER")
+            local zone = row.zone_ko and row.zone_ko ~= "" and loc(row.zone_ko) or region
             local path = (zone == region) and region or (region .. " / " .. zone)
-            local destination = (favorite and "|cffffd24a★|r " or "") .. tostring(row.name_ko or row.name or self:L("UNKNOWN"))
+            local destination = (favorite and "|cffffd24a★|r " or "") .. loc(row.name_ko or row.name or self:L("UNKNOWN"))
             local faction = teleportFaction(row)
             fitFontText(button.pathText, path, 150)
             fitFontText(button.nameText, destination, 146)
-            button.levelText:SetText(tostring(row.levelText or self:L("TELEPORT_LEVEL")):gsub("^권장%s*", ""))
+            button.levelText:SetText(loc(row.levelText or self:L("TELEPORT_LEVEL")))
             button.factionText:SetText(factionLabel(faction))
             if faction == "ALLIANCE" then button.factionText:SetTextColor(0.41,0.66,1.00)
             elseif faction == "HORDE" then button.factionText:SetTextColor(1.00,0.40,0.40)
@@ -475,7 +482,7 @@ function A:RefreshTeleportWindow()
             header.aaeLabel:SetText(base)
         end
     end
-    frame.modeText:SetText("분류 → 대륙 → 지역·도시 → 목적지"
+    frame.modeText:SetText("Категория → континент → зона/город → цель"
         .. (frame.progressCheck and frame.progressCheck:GetChecked() and (" · " .. self:L("TELEPORT_PROGRESS_ACTIVE")) or ""))
 end
 
@@ -670,7 +677,8 @@ local function favoriteMatches(frame)
         if not isTeleportUsable(row) then return end
         local key = teleportKey(row)
         if key == "" or not favorites[key] or seen[key] then return end
-        local hay = string.lower(tostring(row.name or "") .. " " .. tostring(row.name_ko or "") .. " " .. tostring(row.zone_ko or "") .. " " .. tostring(row.region_ko or ""))
+        local hay = string.lower(tostring(row.name or "") .. " " .. tostring(row.name_ko or "") .. " " .. tostring(row.zone_ko or "") .. " " .. tostring(row.region_ko or "")
+            .. " " .. loc(row.name_ko or row.name) .. " " .. loc(row.zone_ko) .. " " .. loc(row.region_ko))
         if query == "" or string.find(hay, query, 1, true) then seen[key] = true; table.insert(rows, row) end
     end
     for _, row in ipairs(A.Data.teleports or {}) do add(A.Data:EnrichTeleport(row, false)) end

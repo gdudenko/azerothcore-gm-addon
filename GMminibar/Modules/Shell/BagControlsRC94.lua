@@ -14,7 +14,7 @@ function U:ActualItemLevel(bag,slot,item)
         local pattern=ITEM_LEVEL and ITEM_LEVEL:gsub("%%d","(%%d+)")
         for i=1,tip:NumLines() do
             local line=_G["GMminibarItemLevelTooltipTextLeft"..i];local text=line and line:GetText()
-            local v=text and ((pattern and text:match(pattern)) or text:match("아이템 레벨%s*(%d+)"))
+            local v=text and ((pattern and text:match(pattern)) or text:match("Уровень предмета%s*(%d+)") or text:match("아이템 레벨%s*(%d+)"))
             if v then tip:Hide();self.levelCache[item]=tonumber(v);return tonumber(v) end
         end
         tip:Hide()

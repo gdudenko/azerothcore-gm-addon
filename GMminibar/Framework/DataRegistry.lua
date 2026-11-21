@@ -151,7 +151,7 @@ function D:SearchGenerated(kind, query, limit, offset)
         for _, row in ipairs(self:SearchTeleports(query, "server")) do
             if not row.disabled and (not A.IsTeleportUsable or A:IsTeleportUsable(row)) then
                 matched = matched + 1
-                if matched > offset and #out < limit then out[#out+1] = {row.id,row.name_ko or row.name,row.map,row.x,row.y,row.z} end
+                if matched > offset and #out < limit then out[#out+1] = {row.id,A:TranslateLabel(row.name_ko or row.name or ""),row.map,row.x,row.y,row.z} end
             end
         end
         return out, matched
@@ -218,8 +218,8 @@ function D:EnrichTeleport(row, fullCatalog)
         zone_ko = meta.zone_ko,
         regionKey = meta.regionKey or "OTHER",
         faction = meta.faction,
-        region_ko = meta.region_ko or "기타",
-        levelText = meta.levelText or "권장 레벨 정보 없음",
+        region_ko = meta.region_ko or "Прочее",
+        levelText = meta.levelText or "уровень не указан",
         disabled = meta.disabled or self.teleportMeta[id] == nil,
         disableReason = meta.disableReason,
         fullCatalog = fullCatalog and true or false,
@@ -240,7 +240,10 @@ function D:SearchTeleports(query, group)
                 or contains(row.name_ko, query)
                 or contains(row.zone_ko, query)
                 or contains(row.region_ko, query)
-                or contains(row.levelText, query) then
+                or contains(row.levelText, query)
+                or contains(A:TranslateLabel(tostring(row.name_ko or row.name or "")), query)
+                or contains(A:TranslateLabel(tostring(row.zone_ko or "")), query)
+                or contains(A:TranslateLabel(tostring(row.region_ko or "")), query) then
                 table.insert(out, row)
             end
         end
@@ -253,14 +256,17 @@ function D:SearchTeleports(query, group)
                     or contains(row.name_ko, query)
                     or contains(row.zone_ko, query)
                     or contains(row.region_ko, query)
-                    or contains(row.levelText, query)) then
+                    or contains(row.levelText, query)
+                    or contains(A:TranslateLabel(tostring(row.name_ko or row.name or "")), query)
+                    or contains(A:TranslateLabel(tostring(row.zone_ko or "")), query)
+                    or contains(A:TranslateLabel(tostring(row.region_ko or "")), query)) then
                 table.insert(out, row)
             end
         end
     end
     table.sort(out, function(left, right)
-        local a = tostring(left.region_ko or "") .. "\001" .. tostring(left.zone_ko or "") .. "\001" .. tostring(left.name_ko or left.name)
-        local b = tostring(right.region_ko or "") .. "\001" .. tostring(right.zone_ko or "") .. "\001" .. tostring(right.name_ko or right.name)
+        local a = A:TranslateLabel(tostring(left.region_ko or "")) .. "\001" .. A:TranslateLabel(tostring(left.zone_ko or "")) .. "\001" .. A:TranslateLabel(tostring(left.name_ko or left.name or ""))
+        local b = A:TranslateLabel(tostring(right.region_ko or "")) .. "\001" .. A:TranslateLabel(tostring(right.zone_ko or "")) .. "\001" .. A:TranslateLabel(tostring(right.name_ko or right.name or ""))
         if a == b then return (tonumber(left.id) or 0) < (tonumber(right.id) or 0) end
         return a < b
     end)

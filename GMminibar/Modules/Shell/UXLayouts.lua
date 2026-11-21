@@ -83,9 +83,10 @@ function W:LayoutTeleports(frame)
         local function refresh()
             local tp = row.aaeTeleport
             if not tp then return end
-            title:SetText(tp.name_ko or tp.name or "")
-            detail:SetText(tp.zone_ko or tp.zone or tp.region_ko or "")
-            info:SetText(tp.levelText or tp.command or tp.name or "")
+            local function loc(v) local s=A:TranslateLabel(tostring(v or ""));return (s:gsub("(%d+)인","%1 чел."):gsub("^Рекомендуется%s*","")) end
+            title:SetText(loc(tp.name_ko or tp.name))
+            detail:SetText(loc(tp.zone_ko or tp.zone or tp.region_ko))
+            info:SetText(tp.levelText and loc(tp.levelText) or (tp.command or loc(tp.name)))
             icon:SetTexture(tp.icon or "Interface\\Icons\\INV_Misc_Map_01")
         end
         row:HookScript("OnLeave",function() row:SetNormalTexture(""); N:Panel(row,true) end)

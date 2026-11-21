@@ -42,7 +42,7 @@ function U:UpdateButtonGuards(button,b,s,visible)
   guard:SetScript('OnClick',blocked);guard:SetScript('OnDragStart',blocked);guard:SetScript('OnReceiveDrag',blocked)
   guard:SetScript('OnEnter',function(g)
    local tip=A:BeginHintTooltip(g,'ANCHOR_RIGHT');tip:SetBagItem(b,s)
-   tip:AddLine(A:T('아이템 고정: 이동·사용·판매·파괴 방지'),.3,.7,1);A:StyleHintTooltip();tip:Show()
+   tip:AddLine(A:T('Закрепление: запрет перемещения, использования, продажи и разрушения'),.3,.7,1);A:StyleHintTooltip();tip:Show()
   end)
   guard:SetScript('OnLeave',function(g) A:HideHintTooltip(g) end)
   guard:EnableMouseWheel(true);guard:SetScript('OnMouseWheel',function(_,d) U:Scroll(d) end)
@@ -99,7 +99,7 @@ end
 function U:CreateBagSlots()
  if self.bagSlots then return end
  self.bagSlots={}
- local label=N:Text(self.frame,A:T('장착 가방'),150,true)
+ local label=N:Text(self.frame,A:T('Надетые сумки'),150,true)
  label:SetPoint('BOTTOMLEFT',self.frame,'BOTTOMLEFT',14,22)
  for bag=1,4 do
   local id,empty=GetInventorySlotInfo('Bag'..(bag-1)..'Slot')
@@ -114,11 +114,11 @@ function U:CreateBagSlots()
   button:SetScript('OnDragStart',BagSlotButton_OnDrag)
   button:SetScript('OnEnter',function(s)
    local tip=A:BeginHintTooltip(s,'ANCHOR_LEFT')
-   if not tip:SetInventoryItem('player',s:GetID()) then tip:SetText(A:T('빈 가방칸 ')..bag,1,.82,0) end
+   if not tip:SetInventoryItem('player',s:GetID()) then tip:SetText(A:T('Свободно: ')..bag,1,.82,0) end
    local slots=GetContainerNumSlots(bag)
    if slots>0 then local free=GetContainerNumFreeSlots(bag);tip:AddLine(A:T('빈칸 ')..(free or 0)..' / '..slots,1,1,1) end
-   tip:AddLine(A:T('가방을 끌어 놓아 장착/교체'),.3,1,.3)
-   tip:AddLine(A:T('클릭: 개별 가방 열기 · 드래그: 가방 꺼내기'),.7,.7,.7)
+   tip:AddLine(A:T('Перетащите сумку, чтобы надеть или заменить'),.3,1,.3)
+   tip:AddLine(A:T('Клик: открыть сумку · Перетаскивание: снять сумку'),.7,.7,.7)
    A:StyleHintTooltip();tip:Show()
   end)
   button:SetScript('OnLeave',function(s) A:HideHintTooltip(s) end)

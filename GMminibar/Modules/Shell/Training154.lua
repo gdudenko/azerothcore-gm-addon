@@ -24,7 +24,7 @@ function S:RefreshTraining()
  local row=self.selected;local ranks=self:SelectedRanks();local current
  for _,id in ipairs(ranks)do if known(id)then current=id end end
  local currentInfo=current and self:Info(current);local rankData=current and A.SpellRankData[current];local currentText=currentInfo and currentInfo.rank~=''and currentInfo.rank or rankData and A:L('UX_RANK_NUMBER',rankData.rank)or A:L('UX_SINGLE_RANK')
- f.currentRank:SetText('주문 단계 · '..(current and A:L('UX_CURRENT_RANK',currentText)or '현재 습득 단계 없음'))
+ f.currentRank:SetText('Ранг заклинания · '..(current and A:L('UX_CURRENT_RANK',currentText)or 'текущий ранг не изучен'))
  f.learn:SetText(A:L(row and known(row.id)and 'UX_KNOWN' or 'UX_LEARN_SPELL'))
  UI:SetEnabled(f.learn,row and not known(row.id)and A:CanRunCommand('learn')or false)
  local pages=math.max(1,math.ceil(#ranks/#f.rankRows));self.rankPage=math.max(1,math.min(self.rankPage or 1,pages))
@@ -60,7 +60,7 @@ function S:Create()
  create(self);local f=self.frame
  f.learn=N:Button(f.detailPanel,A:L('UX_LEARN_SPELL'),220,27,function()
   if not S.selected then return end
-  local id=S.selected.id;local ok=A:LearnOwnSpell(id);if ok then A.PlayerActions:Track('spell',function()return known(id)end,f.learnStatus)else f.learnStatus:SetText(known(id)and '이미 습득한 주문입니다.'or A:L('UX_REQUEST_FAILED'))end
+  local id=S.selected.id;local ok=A:LearnOwnSpell(id);if ok then A.PlayerActions:Track('spell',function()return known(id)end,f.learnStatus)else f.learnStatus:SetText(known(id)and 'Заклинание уже изучено.'or A:L('UX_REQUEST_FAILED'))end
  end)
  A.PlayerActions:Attach(f.learn,f.learn:GetScript('OnClick'))
  f.learnStatus=N:Text(f.detailPanel,'',230,true);f.learnStatus:SetHeight(42);f.learnStatus:SetPoint('TOPLEFT',f.detailPanel,'TOPLEFT',13,-302)
@@ -131,8 +131,8 @@ function A:RefreshProfessionTraining()
    r.label:SetTextColor(reached and .3 or 1,reached and .7 or .82,reached and 1 or .2)
    local previous=i==1 or state.known and state.maximum>=data[i-1].maximum
    local required=tier.required or 0
-   r.learn:SetText(reached and '습득 완료' or previous and '등급 습득' or '이전 등급 필요')
-   if not reached and previous and state.current<required then r.learn:SetText('숙련 '..required..' 필요')end
+   r.learn:SetText(reached and 'изучено' or previous and 'Изучить ранг' or 'Нужен предыдущий ранг')
+   if not reached and previous and state.current<required then r.learn:SetText('Требуется навык '..required)end
    UI:SetEnabled(r.learn,not reached and previous and state.current>=required and self:CanRunCommand('learn'))
    UI:SetEnabled(r.max,reached and state.current<tier.maximum and self:CanRunCommand('learn'))
    r:Show()

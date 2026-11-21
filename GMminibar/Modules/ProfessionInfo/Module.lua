@@ -726,7 +726,7 @@ function A:RefreshProfessionRows()
             if refreshedName and refreshedName ~= "" then recipe.name = refreshedName end
             recipe.icon = recipeResultIcon(recipe)
             row:SetText(tostring(recipe.name or (A:L("SPELL") .. " " .. tostring(recipe.spellID))))
-            row.indexText:SetText((isKnownSpell(recipe.spellID)and "|cff55bbff습득 완료|r · "or "")..self:L(recipe.tierLabelKey or "PROF_TIER_APPRENTICE") .. " · " .. tostring(recipe.requiredSkill or 0) .. " · " .. recipe.spellID)
+            row.indexText:SetText((isKnownSpell(recipe.spellID)and "|cff55bbffизучено|r · "or "")..self:L(recipe.tierLabelKey or "PROF_TIER_APPRENTICE") .. " · " .. tostring(recipe.requiredSkill or 0) .. " · " .. recipe.spellID)
             row.recipeIcon:SetTexture(recipe.icon or PROFESSION_ICONS[recipe.professionID]
                 or "Interface\\Icons\\INV_Misc_QuestionMark")
             row:Show()
@@ -760,7 +760,7 @@ function A:CreateProfessionWindow()
     frame.professionButtons = {}
     for index, professionID in ipairs(PROFESSION_IDS) do
         local profession = self.Data:GetProfession(professionID) or (self.AC335Professions and self.AC335Professions[professionID])
-        local label = profession and (profession.name_ko or profession.name) or tostring(professionID)
+        local label = profession and A:TranslateLabel(profession.name_ko or profession.name) or tostring(professionID)
         local count = 0; for _, category in ipairs((profession and profession.categories) or {}) do count = count + table.getn(category.spells or {}) end
         local button = UI:Button(professionPanel, 148, 34, label .. "  |cff6fcfe8" .. count .. "|r", "normal", "LEFT")
         button:SetPoint("TOPLEFT", professionPanel, "TOPLEFT", 10, -34 - (index - 1) * 38); button.professionID = professionID; button.baseLabel = label; button.recipeCount = count
@@ -803,7 +803,7 @@ function A:CreateProfessionWindow()
     end
     local knownOnly = UI:Check(recipePanel, 78, self:L("KNOWN_ONLY"), false, function() if frame.hideKnown then frame.hideKnown:SetChecked(false)end;A:BuildProfessionFilter() end)
     knownOnly:SetPoint("TOPLEFT", recipePanel, "TOPLEFT", 10, -79); frame.knownOnly = knownOnly
-    frame.hideKnown=UI:Check(recipePanel,200,'습득한 제작법 제외',false,function()frame.knownOnly:SetChecked(false);A:BuildProfessionFilter()end)
+    frame.hideKnown=UI:Check(recipePanel,200,'Скрыть изученные рецепты',false,function()frame.knownOnly:SetChecked(false);A:BuildProfessionFilter()end)
     frame.hideKnown:SetPoint('TOPLEFT',recipePanel,'TOPLEFT',100,-79)
 
 

@@ -133,7 +133,7 @@ function W:OpenSlotPicker(slot)
 end
 
 function A:ProductName()
- return D:Locale()=="koKR" and "GM MINI BAR[WotLK-아제로스코어]" or "GM MINI BAR[WotLK-AzerothCore]"
+ return D:Locale()=="koKR" and "GM MINI BAR[WotLK-AzerothCore]" or "GM MINI BAR[WotLK-AzerothCore]"
 end
 
 function A:Print(message,isError)

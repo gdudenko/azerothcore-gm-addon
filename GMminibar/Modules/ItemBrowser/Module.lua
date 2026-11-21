@@ -41,10 +41,10 @@ local CLASS_OPTIONS = {
 }
 
 local CLASS_WORDS = {
-    WARRIOR = { "전사", "warrior" }, PALADIN = { "성기사", "paladin" }, HUNTER = { "사냥꾼", "hunter" },
-    ROGUE = { "도적", "rogue" }, PRIEST = { "사제", "priest" }, DEATHKNIGHT = { "죽음의 기사", "death knight" },
-    SHAMAN = { "주술사", "shaman" }, MAGE = { "마법사", "mage" }, WARLOCK = { "흑마법사", "warlock" },
-    MONK = { "수도사", "monk" }, DRUID = { "드루이드", "druid" },
+    WARRIOR = { "전사", "warrior", "воин" }, PALADIN = { "성기사", "paladin", "паладин" }, HUNTER = { "사냥꾼", "hunter", "охотник" },
+    ROGUE = { "도적", "rogue", "разбойник" }, PRIEST = { "사제", "priest", "жрец" }, DEATHKNIGHT = { "죽음의 기사", "death knight", "рыцарь смерти" },
+    SHAMAN = { "주술사", "shaman", "шаман" }, MAGE = { "마법사", "mage", "маг" }, WARLOCK = { "흑마법사", "warlock", "чернокнижник" },
+    MONK = { "수도사", "monk", "монах" }, DRUID = { "드루이드", "druid", "друид" },
 }
 local ALL_CLASS_WORDS = {}
 for _, words in pairs(CLASS_WORDS) do
@@ -205,19 +205,19 @@ local function classMatches(row, info, selectedClass)
     if not itemTypeName and not itemSubType then return true end
     local combined = lower((itemTypeName or "") .. " " .. (itemSubType or ""))
     local armorWords = {
-        WARRIOR = { "판금", "plate" }, PALADIN = { "판금", "plate" }, DEATHKNIGHT = { "판금", "plate" },
-        HUNTER = { "사슬", "mail" }, SHAMAN = { "사슬", "mail" },
-        ROGUE = { "가죽", "leather" }, MONK = { "가죽", "leather" }, DRUID = { "가죽", "leather" },
-        PRIEST = { "천", "cloth" }, MAGE = { "천", "cloth" }, WARLOCK = { "천", "cloth" },
+        WARRIOR = { "판금", "plate", "латы" }, PALADIN = { "판금", "plate", "латы" }, DEATHKNIGHT = { "판금", "plate", "латы" },
+        HUNTER = { "사슬", "mail", "кольчуга" }, SHAMAN = { "사슬", "mail", "кольчуга" },
+        ROGUE = { "가죽", "leather", "кожа" }, MONK = { "가죽", "leather", "кожа" }, DRUID = { "가죽", "leather", "кожа" },
+        PRIEST = { "천", "cloth", "ткань" }, MAGE = { "천", "cloth", "ткань" }, WARLOCK = { "천", "cloth", "ткань" },
     }
     if itemClass == 4 then
         for _, word in ipairs(armorWords[selectedClass] or {}) do if contains(combined, word) then return true end end
-        if contains(combined, "방패") or contains(combined, "shield") then
+        if contains(combined, "방패") or contains(combined, "shield") or contains(combined, "щит") then
             return selectedClass == "WARRIOR" or selectedClass == "PALADIN" or selectedClass == "SHAMAN"
         end
-        return not (contains(combined, "cloth") or contains(combined, "천") or contains(combined, "leather")
-            or contains(combined, "가죽") or contains(combined, "mail") or contains(combined, "사슬")
-            or contains(combined, "plate") or contains(combined, "판금") or contains(combined, "shield") or contains(combined, "방패"))
+        return not (contains(combined, "cloth") or contains(combined, "천") or contains(combined, "ткань") or contains(combined, "leather")
+            or contains(combined, "가죽") or contains(combined, "кожа") or contains(combined, "mail") or contains(combined, "사슬") or contains(combined, "кольчуга")
+            or contains(combined, "plate") or contains(combined, "판금") or contains(combined, "латы") or contains(combined, "shield") or contains(combined, "щит") or contains(combined, "방패"))
     end
     return true
 end

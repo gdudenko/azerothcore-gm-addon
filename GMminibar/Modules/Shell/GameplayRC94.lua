@@ -157,7 +157,7 @@ function A:ReflowContentRC93(f)
                 if A.teleportFilterMenu then A.teleportFilterMenu:Hide()end
                 A:RefreshTeleportWindow()
             end)
-            N:Hint(h,A:T('권장 레벨'),A:T('왼쪽 클릭: 레벨 오름차순 / 내림차순\n오른쪽 클릭: 레벨 범위 선택'))
+            N:Hint(h,A:T('권장 레벨'),A:T('ЛКМ: сортировка по уровню (по возрастанию / убыванию)\nПКМ: выбор диапазона уровней'))
         elseif column~=1 and column~=5 then h:SetScript("OnClick",function(b) A:ChooseTeleportColumn(column,b) end) end
         for _,row in ipairs(f.rows or {}) do if row.rc3Cells then
             local c=row.rc3Cells[column];c:ClearAllPoints();c:SetPoint("TOPLEFT",row,"TOPLEFT",x-14,-4);c:SetWidth(w-6)

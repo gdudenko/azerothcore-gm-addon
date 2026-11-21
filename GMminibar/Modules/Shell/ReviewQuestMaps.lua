@@ -73,8 +73,13 @@ function W:ToggleMapFavorite(tp)
 end
 local cities={{"스톰윈드","동부왕국","얼라이언스"},{"아이언포지","동부왕국","얼라이언스"},{"언더시티","동부왕국","호드"},{"실버문","동부왕국","호드"},{"오그리마","칼림도어","호드"},{"썬더 블러프","칼림도어","호드"},{"다르나서스","칼림도어","얼라이언스"},{"엑소다르","칼림도어","얼라이언스"},{"샤트라스","아웃랜드","중립"},{"달라란","노스렌드","중립"}}
 function W:MapInfo(tp)
- local kind=({inn='여관',flight='비행 지점',dungeon='던전',raid='공격대',battleground='전장'})[tp.type]or '확인 필요'
- return {self:IsMapFavorite(tp)and '★'or '☆',tp.region_ko or '',kind,tp.zone_ko or '',tp.name_ko or tp.name or '',tp.levelText or '제한 정보 없음',({ALLIANCE='얼라이언스',HORDE='호드',NEUTRAL='중립'})[tp.faction]or '중립'}
+ local kind=({inn='Таверна',flight='Полётный пункт',dungeon='Подземелье',raid='Рейд',battleground='Поле боя'})[tp.type]or 'уточнить'
+ local function loc(text)
+  local value=A:TranslateLabel(tostring(text or ''))
+  value=value:gsub('(%d+)인','%1 чел.'):gsub('^Рекомендуется%s*','')
+  return value
+ end
+ return {self:IsMapFavorite(tp)and '★'or '☆',loc(tp.region_ko),kind,loc(tp.zone_ko),loc(tp.name_ko or tp.name),loc(tp.levelText or 'ограничений нет'),({ALLIANCE='Альянс',HORDE='Орда',NEUTRAL='нейтрально'})[tp.faction]or 'нейтрально'}
 end
 function W:LayoutTeleports(f)
  if f.rc3List then return end;f.rc3List=true;f:SetWidth(1080);f:SetHeight(700)
@@ -89,16 +94,17 @@ function W:LayoutTeleports(f)
   local function refresh() A.teleportPage=1;A:RefreshTeleportList() end
   f.regionIndex=f.regionIndex or 1
   local regions={"전체 대륙","동부왕국","칼림도어","아웃랜드","노스렌드"}
-  local region=N:Button(f,regions[f.regionIndex],180,23,function(self) f.regionIndex=f.regionIndex%#regions+1;self:SetText(regions[f.regionIndex]);f.regionName=f.regionIndex>1 and regions[f.regionIndex] or nil;refresh() end);region:SetPoint("TOPLEFT",f,"TOPLEFT",14,-86)
-  for i,spec in ipairs({{"allList","전체 목록"},{"ownFaction","내 진영만"}}) do
+  local function regionText(value) return value=='전체 대륙' and 'Все континенты' or A:TranslateLabel(value) end
+  local region=N:Button(f,regionText(regions[f.regionIndex]),180,23,function(self) f.regionIndex=f.regionIndex%#regions+1;self:SetText(regionText(regions[f.regionIndex]));f.regionName=f.regionIndex>1 and regions[f.regionIndex] or nil;refresh() end);region:SetPoint("TOPLEFT",f,"TOPLEFT",14,-86)
+  for i,spec in ipairs({{"allList","Весь список"},{"ownFaction","Только своя фракция"}}) do
    local key=spec[1];local b=CreateFrame("CheckButton",nil,f,"UICheckButtonTemplate");b:SetWidth(24);b:SetHeight(24);b:SetPoint("TOPRIGHT",f,"TOPRIGHT",-130,-48-(i-1)*30);local t=N:Text(f,spec[2],100,true);t:SetPoint("LEFT",b,"RIGHT",2,0);b:SetChecked(key=="allList");b:SetScript("OnClick",function(self) f[key]=self:GetChecked() and true or false;if key=="allList" and f.allList then f.aaeFavOnly=false end;refresh() end)
   end
  end
  if f.filterCaption then f.filterCaption:Hide() end
- local star=N:Button(f,"지도 즐겨찾기",135,24,function() f.aaeFavOnly=not f.aaeFavOnly;if f.page then f.page=1 else A.teleportPage=1 end;if A.RefreshTeleportWindow then A:RefreshTeleportWindow() else A:RefreshTeleportList() end end);star:SetPoint("TOPRIGHT",f,"TOPRIGHT",-18,-122)
- N:Hint(star,A:T("지도 즐겨찾기"),A:T("행 우클릭: 즐겨찾기 등록/해제\n이 버튼: 전체 목록 / 즐겨찾기 전환"))
+ local star=N:Button(f,"Избранные точки",135,24,function() f.aaeFavOnly=not f.aaeFavOnly;if f.page then f.page=1 else A.teleportPage=1 end;if A.RefreshTeleportWindow then A:RefreshTeleportWindow() else A:RefreshTeleportList() end end);star:SetPoint("TOPRIGHT",f,"TOPRIGHT",-18,-122)
+ N:Hint(star,'Избранные точки','ПКМ по строке: добавить или убрать из избранного\nЭта кнопка: весь список / только избранное')
  local widths={30,112,68,148,448,114,106};local x=19;f.rc3Headers={}
- for i,label in ipairs({"★","대륙","분류","도시 / 지역","목적지","레벨","진영"}) do
+ for i,label in ipairs({"★","Континент","Категория","Зона / город","Цель","Уровень","Фракция"}) do
   local column=i;local t=N:Button(f,label,widths[i]-6,18,function()
    if f.rc3Sort==column then f.rc3Ascending=not f.rc3Ascending else f.rc3Sort=column;f.rc3Ascending=true end
    f.page=1;A.teleportPage=1;if A.RefreshTeleportWindow then A:RefreshTeleportWindow() else A:RefreshTeleportList() end
