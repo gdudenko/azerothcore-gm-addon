@@ -1,5 +1,7 @@
 > This is the original upstream English guide, kept for reference.
 > The main page of this fork is the [Russian localization guide](README.md).
+> The download links below point to the original upstream release; the localized
+> build of this fork is the `GMminibar/` folder in this repository.
 
 # GM MINI BAR — Wrath of the Lich King · AzerothCore
 

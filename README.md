@@ -121,6 +121,7 @@ PASS: 118 Lua files; 117 TOC entries; XML, version, manifest, package scope
 
 - **Оригинальный аддон:** GM MINI BAR (AzerothCore edition) v1.0.0,
   автор **취미연구가** — [github.com/hilch1981-prog/azerothcore-gm-addon](https://github.com/hilch1981-prog/azerothcore-gm-addon).
+- **База форка:** upstream `main`, коммит `088b3d0` (релиз v1.0.0).
 - **Лицензия:** [GNU GPL v3.0](LICENSE). Форк распространяется на тех же условиях.
 - **Русские имена** предметов, существ и заданий взяты из официальной
   ruRU-локализации World of Warcraft через таблицы `*_locale` AzerothCore.
