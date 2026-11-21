@@ -156,7 +156,7 @@ local function sourceText(info)
     if type(info) ~= "table" then return "" end
     local out = {}
     if info.section and info.section ~= "" then table.insert(out, info.section) end
-    if info.raw and info.raw ~= "" then table.insert(out, tostring(info.raw):gsub("@@", " / ")) end
+    if info.raw and info.raw ~= "" then table.insert(out, (tostring(info.raw):gsub("@@", " / "))) end
     return table.concat(out, " · ")
 end
 
